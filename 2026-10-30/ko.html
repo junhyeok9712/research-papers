@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Daily Papers</title>
+<style>
+:root{--bg:#f7f6f2;--card:#fff;--text:#1d1d1f;--muted:#6b6b70;--line:#e2dfd7;--accent:#2f5bd3;--err:#a8341f;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#131416;--card:#1c1d20;--text:#ececee;--muted:#9a9aa2;--line:#2e3035;--accent:#8aa8ff;--err:#ff8f7a;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;padding:16px}
+.lock{width:100%;max-width:360px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 24px}
+h1{font-size:20px;margin:0 0 4px}p{margin:0 0 16px;color:var(--muted);font-size:14px}
+input[type=password]{width:100%;font:inherit;font-size:16px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--text)}
+label{display:flex;gap:6px;align-items:center;font-size:13.5px;color:var(--muted);margin:10px 0 14px}
+button{width:100%;font:inherit;font-size:15px;font-weight:600;padding:10px;border:0;border-radius:10px;background:var(--accent);color:#fff;cursor:pointer}
+button:disabled{opacity:.6;cursor:wait}#dp-err{color:var(--err);font-size:13.5px;margin:12px 0 0}
+</style>
+</head>
+<body>
+<main class="lock" id="dp-lock" hidden>
+<h1>Daily Papers</h1>
+<p>비밀번호를 입력해야 볼 수 있습니다.</p>
+<form id="dp-form">
+<input type="password" id="dp-pw" autocomplete="current-password" aria-label="비밀번호" required autofocus>
+<label><input type="checkbox" id="dp-remember"> 이 기기에서 기억하기</label>
+<button id="dp-go" type="submit">열기</button>
+<p id="dp-err" role="alert" hidden>비밀번호가 맞지 않습니다.</p>
+</form>
+</main>
+<noscript>이 페이지는 JavaScript로 복호화됩니다.</noscript>
+<script id="dp-payload" type="application/json">{"v": 1, "z": 1, "salt": "ftg+w6PYKBOpSo+H3q0T9w==", "iter": 600000, "iv": "hRARgQHQdZr96MbA", "ct": "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"}</script>
+<script>
+(async function () {
+  var P = JSON.parse(document.getElementById('dp-payload').textContent);
+  var K = 'rn-key-' + P.salt;
+  function bytes(s) { return Uint8Array.from(atob(s), function (c) { return c.charCodeAt(0); }); }
+  function text(b) { var s = ''; b.forEach(function (x) { s += String.fromCharCode(x); }); return btoa(s); }
+  function get() { try { return sessionStorage.getItem(K) || localStorage.getItem(K); } catch (e) { return null; } }
+  function forget() { try { sessionStorage.removeItem(K); localStorage.removeItem(K); } catch (e) {} }
+  async function decrypt(raw) {
+    var key = await crypto.subtle.importKey('raw', raw, 'AES-GCM', false, ['decrypt']);
+    var pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: bytes(P.iv) }, key, bytes(P.ct));
+    if (!P.z) return new TextDecoder().decode(pt);
+    var stream = new Blob([pt]).stream().pipeThrough(new DecompressionStream('gzip'));
+    return await new Response(stream).text();
+  }
+  function show(html) {
+    // swap the DOM in place (document.write during page load can leave the load hanging)
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
+    document.querySelectorAll('script').forEach(function (old) {
+      var s = document.createElement('script');  // imported scripts don't run; recreate them
+      Array.prototype.forEach.call(old.attributes, function (a) { s.setAttribute(a.name, a.value); });
+      if (old.src) s.async = false;  // keep document order (KaTeX before its auto-render)
+      s.text = old.text;
+      old.replaceWith(s);
+    });
+  }
+  var saved = get();
+  if (saved) {
+    try { show(await decrypt(bytes(saved))); return; } catch (e) { forget(); }
+  }
+  var lock = document.getElementById('dp-lock');
+  lock.hidden = false;
+  document.getElementById('dp-form').addEventListener('submit', async function (ev) {
+    ev.preventDefault();
+    var go = document.getElementById('dp-go'), err = document.getElementById('dp-err');
+    go.disabled = true; err.hidden = true;
+    try {
+      var pw = new TextEncoder().encode(document.getElementById('dp-pw').value);
+      var base = await crypto.subtle.importKey('raw', pw, 'PBKDF2', false, ['deriveBits']);
+      var raw = new Uint8Array(await crypto.subtle.deriveBits(
+        { name: 'PBKDF2', hash: 'SHA-256', salt: bytes(P.salt), iterations: P.iter }, base, 256));
+      var html = await decrypt(raw);
+      try {
+        sessionStorage.setItem(K, text(raw));
+        if (document.getElementById('dp-remember').checked) localStorage.setItem(K, text(raw));
+      } catch (e) {}
+      show(html);
+    } catch (e) {
+      err.hidden = false; go.disabled = false;
+      document.getElementById('dp-pw').select();
+    }
+  });
+})();
+</script>
+</body>
+</html>
