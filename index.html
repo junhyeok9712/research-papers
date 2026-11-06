@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Daily Papers</title>
+<style>
+:root{--bg:#f7f6f2;--card:#fff;--text:#1d1d1f;--muted:#6b6b70;--line:#e2dfd7;--accent:#2f5bd3;--err:#a8341f;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#131416;--card:#1c1d20;--text:#ececee;--muted:#9a9aa2;--line:#2e3035;--accent:#8aa8ff;--err:#ff8f7a;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;padding:16px}
+.lock{width:100%;max-width:360px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 24px}
+h1{font-size:20px;margin:0 0 4px}p{margin:0 0 16px;color:var(--muted);font-size:14px}
+input[type=password]{width:100%;font:inherit;font-size:16px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--text)}
+label{display:flex;gap:6px;align-items:center;font-size:13.5px;color:var(--muted);margin:10px 0 14px}
+button{width:100%;font:inherit;font-size:15px;font-weight:600;padding:10px;border:0;border-radius:10px;background:var(--accent);color:#fff;cursor:pointer}
+button:disabled{opacity:.6;cursor:wait}#dp-err{color:var(--err);font-size:13.5px;margin:12px 0 0}
+</style>
+</head>
+<body>
+<main class="lock" id="dp-lock" hidden>
+<h1>Daily Papers</h1>
+<p>비밀번호를 입력해야 볼 수 있습니다.</p>
+<form id="dp-form">
+<input type="password" id="dp-pw" autocomplete="current-password" aria-label="비밀번호" required autofocus>
+<label><input type="checkbox" id="dp-remember"> 이 기기에서 기억하기</label>
+<button id="dp-go" type="submit">열기</button>
+<p id="dp-err" role="alert" hidden>비밀번호가 맞지 않습니다.</p>
+</form>
+</main>
+<noscript>이 페이지는 JavaScript로 복호화됩니다.</noscript>
+<script id="dp-payload" type="application/json">{"v": 1, "z": 1, "salt": "ftg+w6PYKBOpSo+H3q0T9w==", "iter": 600000, "iv": "NQGFjugnow5mmtQd", "ct": "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"}</script>
+<script>
+(async function () {
+  var P = JSON.parse(document.getElementById('dp-payload').textContent);
+  var K = 'rn-key-' + P.salt;
+  function bytes(s) { return Uint8Array.from(atob(s), function (c) { return c.charCodeAt(0); }); }
+  function text(b) { var s = ''; b.forEach(function (x) { s += String.fromCharCode(x); }); return btoa(s); }
+  function get() { try { return sessionStorage.getItem(K) || localStorage.getItem(K); } catch (e) { return null; } }
+  function forget() { try { sessionStorage.removeItem(K); localStorage.removeItem(K); } catch (e) {} }
+  async function decrypt(raw) {
+    var key = await crypto.subtle.importKey('raw', raw, 'AES-GCM', false, ['decrypt']);
+    var pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: bytes(P.iv) }, key, bytes(P.ct));
+    if (!P.z) return new TextDecoder().decode(pt);
+    var stream = new Blob([pt]).stream().pipeThrough(new DecompressionStream('gzip'));
+    return await new Response(stream).text();
+  }
+  function show(html) {
+    // swap the DOM in place (document.write during page load can leave the load hanging)
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    document.replaceChild(document.importNode(doc.documentElement, true), document.documentElement);
+    document.querySelectorAll('script').forEach(function (old) {
+      var s = document.createElement('script');  // imported scripts don't run; recreate them
+      Array.prototype.forEach.call(old.attributes, function (a) { s.setAttribute(a.name, a.value); });
+      if (old.src) s.async = false;  // keep document order (KaTeX before its auto-render)
+      s.text = old.text;
+      old.replaceWith(s);
+    });
+  }
+  var saved = get();
+  if (saved) {
+    try { show(await decrypt(bytes(saved))); return; } catch (e) { forget(); }
+  }
+  var lock = document.getElementById('dp-lock');
+  lock.hidden = false;
+  document.getElementById('dp-form').addEventListener('submit', async function (ev) {
+    ev.preventDefault();
+    var go = document.getElementById('dp-go'), err = document.getElementById('dp-err');
+    go.disabled = true; err.hidden = true;
+    try {
+      var pw = new TextEncoder().encode(document.getElementById('dp-pw').value);
+      var base = await crypto.subtle.importKey('raw', pw, 'PBKDF2', false, ['deriveBits']);
+      var raw = new Uint8Array(await crypto.subtle.deriveBits(
+        { name: 'PBKDF2', hash: 'SHA-256', salt: bytes(P.salt), iterations: P.iter }, base, 256));
+      var html = await decrypt(raw);
+      try {
+        sessionStorage.setItem(K, text(raw));
+        if (document.getElementById('dp-remember').checked) localStorage.setItem(K, text(raw));
+      } catch (e) {}
+      show(html);
+    } catch (e) {
+      err.hidden = false; go.disabled = false;
+      document.getElementById('dp-pw').select();
+    }
+  });
+})();
+</script>
+</body>
+</html>
